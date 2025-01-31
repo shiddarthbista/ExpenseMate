@@ -39,16 +39,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import bista.shiddarth.expensemate.R
 import bista.shiddarth.expensemate.model.Group
+import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
 
 @Composable
 fun GroupScreen(
-    groupList: List<Group>,
-    onAddExpenseClick: () -> Unit,    // Handle Add Expense action
+    groupList: MutableList<Group>,
+    navController: NavHostController,
+    onAddExpenseClick: () -> Unit,
+    onGroupCreated: (Group) -> Unit
 ) {
-
     val listState = rememberLazyListState()
     val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
     Scaffold(
@@ -98,7 +101,9 @@ fun GroupScreen(
                 contentAlignment = Alignment.BottomCenter,
             ) {
                 OutlinedButton(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        navController.navigate(Screens.CreateGroup.route)
+                    },
                     colors = ButtonColors(
                         contentColor = kellyGreen,
                         containerColor = Color(0xFF202124),
