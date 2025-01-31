@@ -1,9 +1,9 @@
-package com.example.compose
+package bista.shiddarth.expensemate.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val primaryLight = Color(0xFF006874)
 val onPrimaryLight = Color(0xFFFFFFFF)
-val primaryContainerLight = Color(0xFF9EEFFD)
+val primaryContainerLight = Color(0xFF333333)
 val onPrimaryContainerLight = Color(0xFF004F58)
 val secondaryLight = Color(0xFF4A6267)
 val onSecondaryLight = Color(0xFFFFFFFF)

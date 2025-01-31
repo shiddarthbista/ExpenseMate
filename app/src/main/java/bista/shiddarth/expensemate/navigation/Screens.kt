@@ -1,8 +1,11 @@
 package bista.shiddarth.expensemate.navigation
 
-sealed class Screens(val route: String) {
-    object GroupScreen : Screens("group_screen")
-    object FriendsScreen : Screens("friends_screen")
-    object ActivityScreen : Screens("activity_screen")
-    object AccountScreen : Screens("account_screen")
+import bista.shiddarth.expensemate.R
+
+
+sealed class Screens(val route: String,val label:String, val icon: Int) {
+    data object GroupScreen : Screens("group_screen","Groups", R.drawable.ic_groups)
+    data object FriendsScreen : Screens("friends_screen","Friends", R.drawable.ic_user)
+    data object ActivityScreen : Screens("activity_screen", "Activity",R.drawable.ic_activity)
+    data object AccountScreen : Screens("account_screen", "Account", R.drawable.ic_account)
 }
