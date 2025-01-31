@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import bista.shiddarth.expensemate.model.Group
 import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.screens.GroupScreen
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
@@ -69,8 +70,17 @@ fun ExpenseMateApp() {
             startDestination = Screens.GroupScreen.route,
             modifier = Modifier.padding(paddingValues)
         ) {
+            val groups = listOf(
+                Group("Group 1", R.drawable.background2,"Group 1"),
+                Group("Group 2", R.drawable.background1,"Group 2"),
+                Group("Group 3", R.drawable.background3,"Group 3"),
+                Group("Group 4", R.drawable.background1,"Group 4"),
+                Group("Group 5", R.drawable.background1,"Group 5"),
+                Group("Group 6", R.drawable.background1,"Group 6"),
+                Group("Group 7", R.drawable.background1,"Group 7")
+            )
             composable(Screens.GroupScreen.route) {
-                GroupScreen {}
+                GroupScreen(groups) {}
             }
             composable(Screens.FriendsScreen.route) {
                 FriendsScreen()

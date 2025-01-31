@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ExpenseMate</string>
+    <string name="create_new_group">Create a new group</string>
+    <string name="add_expenses">Add Expenses</string>
 </resources>
