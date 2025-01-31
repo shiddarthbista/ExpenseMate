@@ -1,9 +1,7 @@
 package bista.shiddarth.expensemate
 
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -21,6 +19,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import bista.shiddarth.expensemate.navigation.Screens
+import bista.shiddarth.expensemate.screens.GroupScreen
+import bista.shiddarth.expensemate.ui.theme.kellyGreen
 
 @Composable
 fun ExpenseMateApp() {
@@ -54,7 +54,7 @@ fun ExpenseMateApp() {
                                 painter = painterResource(id = screens.icon),
                                 contentDescription = screens.route,
                                 tint = if (selectedScreen == index) {
-                                    Color(0xFF1EC29F)
+                                    kellyGreen
                                 } else {
                                     Color.White
                                 }
@@ -70,7 +70,7 @@ fun ExpenseMateApp() {
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Screens.GroupScreen.route) {
-                GroupScreen()
+                GroupScreen {}
             }
             composable(Screens.FriendsScreen.route) {
                 FriendsScreen()
@@ -85,11 +85,6 @@ fun ExpenseMateApp() {
 
     }
 
-}
-
-@Composable
-fun GroupScreen() {
-    Text(text = "Group Screen")
 }
 
 @Composable
