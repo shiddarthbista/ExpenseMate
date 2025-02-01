@@ -49,9 +49,8 @@ import bista.shiddarth.expensemate.ui.theme.kellyGreen
 fun GroupScreen(
     groupList: MutableList<Group>,
     navController: NavHostController,
-    onAddExpenseClick: () -> Unit,
-    onGroupCreated: (Group) -> Unit
-) {
+    onAddExpenseClick: () -> Unit)
+{
     val listState = rememberLazyListState()
     val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
     Scaffold(

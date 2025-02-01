@@ -90,9 +90,7 @@ fun ExpenseMateApp() {
         ) {
 
             composable(Screens.GroupScreen.route) {
-                GroupScreen(groups, navController, onGroupCreated = {
-                    groups.add(it)
-                }, onAddExpenseClick = {})
+                GroupScreen(groups, navController, onAddExpenseClick = {})
             }
             composable(Screens.FriendsScreen.route) {
                 FriendsScreen()
