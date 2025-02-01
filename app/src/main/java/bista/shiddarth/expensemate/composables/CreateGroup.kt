@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import bista.shiddarth.expensemate.R
 import bista.shiddarth.expensemate.model.Group
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,7 +73,9 @@ fun CreateGroup(
         ) {
             OutlinedTextField(
                 value = groupName,
-                onValueChange = { groupName = it },
+                onValueChange = { it ->
+                    groupName = it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+                },
                 label = { Text("Group Name") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),

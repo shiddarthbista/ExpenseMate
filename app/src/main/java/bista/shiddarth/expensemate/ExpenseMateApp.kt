@@ -16,11 +16,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import bista.shiddarth.expensemate.composables.CreateGroup
+import bista.shiddarth.expensemate.composables.GroupDetail
 import bista.shiddarth.expensemate.model.Group
 import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.screens.GroupScreen
@@ -88,7 +91,6 @@ fun ExpenseMateApp() {
             startDestination = Screens.GroupScreen.route,
             modifier = Modifier.padding(paddingValues)
         ) {
-
             composable(Screens.GroupScreen.route) {
                 GroupScreen(groups, navController, onAddExpenseClick = {})
             }
@@ -100,6 +102,13 @@ fun ExpenseMateApp() {
             }
             composable(Screens.AccountScreen.route) {
                 AccountScreen()
+            }
+            composable(
+                route = Screens.GroupDetail.route,
+                arguments = listOf(navArgument("groupName") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val groupName = backStackEntry.arguments?.getString("groupName").orEmpty()
+                GroupDetail(groupName, navController)
             }
             composable(Screens.CreateGroup.route) {
                 CreateGroup(navController, onGroupCreated = {
