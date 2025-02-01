@@ -50,8 +50,8 @@ import bista.shiddarth.expensemate.ui.theme.kellyGreen
 fun GroupScreen(
     groupList: MutableList<Group>,
     navController: NavHostController,
-    onAddExpenseClick: () -> Unit)
-{
+    onAddExpenseClick: () -> Unit
+) {
     val listState = rememberLazyListState()
     val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
     Scaffold(
@@ -91,8 +91,11 @@ fun GroupScreen(
                 itemsIndexed(groupList) { _, group ->
                     GroupDetails(
                         group = group,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                            .clickable { navController.navigate("${Screens.GroupDetail.route}/${group.name}}") }
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .clickable {
+                                navController.navigate("groupDetail/${group.name}")
+                            }
                     )
                 }
             }

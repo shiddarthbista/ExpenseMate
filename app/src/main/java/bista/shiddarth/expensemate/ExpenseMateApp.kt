@@ -10,12 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,29 +24,18 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import bista.shiddarth.expensemate.composables.CreateGroup
 import bista.shiddarth.expensemate.composables.GroupDetail
-import bista.shiddarth.expensemate.model.Group
 import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.screens.GroupScreen
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
+import bista.shiddarth.expensemate.viewModel.GroupViewModel
 
 @Composable
 fun ExpenseMateApp() {
+    val groupViewModel: GroupViewModel = viewModel()
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination
     var selectedScreen by remember { mutableIntStateOf(0) }
-
-    val groups = remember {
-        mutableStateListOf(
-            Group("Group 1", R.drawable.background2, "Group 1"),
-            Group("Group 2", R.drawable.background1, "Group 2"),
-            Group("Group 3", R.drawable.background3, "Group 3"),
-            Group("Group 4", R.drawable.background1, "Group 4"),
-            Group("Group 5", R.drawable.background1, "Group 5"),
-            Group("Group 6", R.drawable.background1, "Group 6"),
-            Group("Group 7", R.drawable.background1, "Group 7")
-        )
-    }
 
     val screens = listOf(
         Screens.GroupScreen,
@@ -92,7 +81,7 @@ fun ExpenseMateApp() {
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Screens.GroupScreen.route) {
-                GroupScreen(groups, navController, onAddExpenseClick = {})
+                GroupScreen(groupViewModel.groups, navController, onAddExpenseClick = {})
             }
             composable(Screens.FriendsScreen.route) {
                 FriendsScreen()
@@ -108,18 +97,18 @@ fun ExpenseMateApp() {
                 arguments = listOf(navArgument("groupName") { type = NavType.StringType })
             ) { backStackEntry ->
                 val groupName = backStackEntry.arguments?.getString("groupName").orEmpty()
-                GroupDetail(groupName, navController)
+                println("In composable $groupName")
+                val selectedGroup = groupViewModel.findGroup(groupName)
+                GroupDetail(selectedGroup, navController)
             }
             composable(Screens.CreateGroup.route) {
-                CreateGroup(navController, onGroupCreated = {
-                    groups.add(it)
-                })
+                CreateGroup(navController,groupViewModel)
             }
         }
-
     }
 
 }
+
 
 @Composable
 fun FriendsScreen() {

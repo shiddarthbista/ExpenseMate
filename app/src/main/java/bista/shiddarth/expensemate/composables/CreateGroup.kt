@@ -28,16 +28,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import bista.shiddarth.expensemate.R
 import bista.shiddarth.expensemate.model.Group
+import bista.shiddarth.expensemate.viewModel.GroupViewModel
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateGroup(
     navController: NavHostController,
-    onGroupCreated: (Group) -> Unit
+    groupViewModel: GroupViewModel = viewModel()
 ) {
     var groupName by remember { mutableStateOf("") }
     Scaffold(
@@ -51,7 +53,7 @@ fun CreateGroup(
                 },
                 actions = {
                     IconButton(onClick = {
-                        onGroupCreated(Group(groupName, R.drawable.background6, "New group created"))
+                        groupViewModel.addNewGroup(Group(groupName, R.drawable.background6, "New group created"))
                         navController.popBackStack()
                     }) {
                         Icon(Icons.Filled.Done, "Done")
@@ -80,7 +82,7 @@ fun CreateGroup(
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = {
-                    onGroupCreated(Group(groupName, R.drawable.background6, "New group created"))
+                    groupViewModel.addNewGroup(Group(groupName, R.drawable.background6, "New group created"))
                     navController.popBackStack()
                 })
             )
