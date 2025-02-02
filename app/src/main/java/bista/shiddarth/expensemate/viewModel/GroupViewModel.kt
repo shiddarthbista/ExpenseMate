@@ -26,7 +26,6 @@ class GroupViewModel : ViewModel() {
     }
 
     fun findGroup(groupName: String): Group {
-        println("In findGroup $groupName")
         val selectedGroup =  groups.find { it.name == groupName } ?: Group("1",R.drawable.ic_groups,"NO group found")
         println(selectedGroup)
         return selectedGroup

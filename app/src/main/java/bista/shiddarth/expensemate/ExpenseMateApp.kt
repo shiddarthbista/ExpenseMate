@@ -97,9 +97,8 @@ fun ExpenseMateApp() {
                 arguments = listOf(navArgument("groupName") { type = NavType.StringType })
             ) { backStackEntry ->
                 val groupName = backStackEntry.arguments?.getString("groupName").orEmpty()
-                println("In composable $groupName")
                 val selectedGroup = groupViewModel.findGroup(groupName)
-                GroupDetail(selectedGroup, navController)
+                GroupDetail(selectedGroup, navController, {},{},{},{})
             }
             composable(Screens.CreateGroup.route) {
                 CreateGroup(navController,groupViewModel)
