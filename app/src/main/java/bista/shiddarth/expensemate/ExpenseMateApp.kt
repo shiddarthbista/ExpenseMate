@@ -25,13 +25,16 @@ import androidx.navigation.navArgument
 import bista.shiddarth.expensemate.composables.CreateGroup
 import bista.shiddarth.expensemate.composables.GroupDetail
 import bista.shiddarth.expensemate.navigation.Screens
+import bista.shiddarth.expensemate.screens.FriendsScreen
 import bista.shiddarth.expensemate.screens.GroupScreen
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
+import bista.shiddarth.expensemate.viewModel.FriendViewModel
 import bista.shiddarth.expensemate.viewModel.GroupViewModel
 
 @Composable
 fun ExpenseMateApp() {
     val groupViewModel: GroupViewModel = viewModel()
+    val friendViewModel: FriendViewModel = viewModel()
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination
@@ -84,7 +87,7 @@ fun ExpenseMateApp() {
                 GroupScreen(groupViewModel.groups, navController, onAddExpenseClick = {})
             }
             composable(Screens.FriendsScreen.route) {
-                FriendsScreen()
+                FriendsScreen(friendViewModel.friends, navController, onAddExpenseClick = {})
             }
             composable(Screens.ActivityScreen.route) {
                 ActivityScreen()
@@ -106,12 +109,6 @@ fun ExpenseMateApp() {
         }
     }
 
-}
-
-
-@Composable
-fun FriendsScreen() {
-    Text(text = "Friends Screen")
 }
 
 @Composable

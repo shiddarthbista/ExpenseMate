@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,27 +37,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import bista.shiddarth.expensemate.R
 import bista.shiddarth.expensemate.composables.AddExpensesFAB
+import bista.shiddarth.expensemate.model.Friend
 import bista.shiddarth.expensemate.model.Group
 import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
 
+
 @Composable
-fun GroupScreen(
-    groupList: MutableList<Group>,
+fun FriendsScreen(
+    groupList: MutableList<Friend>,
     navController: NavHostController,
     onAddExpenseClick: () -> Unit
 ) {
     val listState = rememberLazyListState()
     val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
     Scaffold(
-        floatingActionButton = {
-            AddExpensesFAB(expandedFab)
-        },
+        floatingActionButton = { AddExpensesFAB(expandedFab) },
         floatingActionButtonPosition = FabPosition.End,
     ) { innerPadding ->
         Box(
@@ -73,12 +71,12 @@ fun GroupScreen(
                     .padding(innerPadding)
             ) {
                 itemsIndexed(groupList) { _, group ->
-                    GroupDetails(
-                        group = group,
+                    FriendDetails(
+                        friend = group,
                         modifier = Modifier
                             .padding(horizontal = 16.dp, vertical = 8.dp)
                             .clickable {
-                                navController.navigate("groupDetail/${group.name}")
+                                navController.navigate("groupDetail/${group.id}")
                             }
                     )
                 }
@@ -108,7 +106,7 @@ fun GroupScreen(
                                 .size(24.dp)
                                 .padding(end = 5.dp)
                         )
-                        Text(stringResource(id = R.string.create_new_group))
+                        Text(stringResource(id = R.string.add_more_friends))
                     }
                 }
             }
@@ -117,8 +115,8 @@ fun GroupScreen(
 }
 
 @Composable
-fun GroupDetails(
-    group: Group,
+fun FriendDetails(
+    friend: Friend,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -138,7 +136,7 @@ fun GroupDetails(
 
             ) {
                 Image(
-                    painter = painterResource(id = group.image),
+                    painter = painterResource(id = friend.profilePicture),
                     contentDescription = null,
                     alignment = Alignment.TopCenter,
                     contentScale = ContentScale.FillBounds
@@ -149,11 +147,11 @@ fun GroupDetails(
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = group.name,
+                    text = "${friend.firstName} ${friend.lastName}",
                     style = MaterialTheme.typography.displaySmall
                 )
                 Text(
-                    text = group.description,
+                    text = friend.email,
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
