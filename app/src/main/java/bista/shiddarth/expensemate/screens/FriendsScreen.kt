@@ -1,5 +1,6 @@
 package bista.shiddarth.expensemate.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,12 +10,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -41,6 +44,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import bista.shiddarth.expensemate.R
@@ -49,6 +53,7 @@ import bista.shiddarth.expensemate.model.Friend
 import bista.shiddarth.expensemate.model.Group
 import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
+import kotlin.math.absoluteValue
 
 
 @Composable
@@ -150,8 +155,18 @@ fun FriendDetails(
                 )
                 Text(
                     text = friend.email,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip
                 )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(top = 10.dp),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                BalanceText(balance = friend.balance)
             }
         }
     }
@@ -171,6 +186,19 @@ fun InitialAvatar(firstName: String, lastName: String) {
             text = "${firstName.first()}${lastName.first()}",
             color = Color.White,
             style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun BalanceText(balance: Double) {
+    if (balance != 0.0) {
+        val formattedBalance = "$%.2f".format(balance.absoluteValue)
+        Text(
+            text = if (balance > 0) formattedBalance else formattedBalance,
+            style = MaterialTheme.typography.bodyLarge,
+            color = if (balance > 0) Color(0xFF4CAF50) else Color(0xFFF44336),
             fontWeight = FontWeight.Bold
         )
     }
