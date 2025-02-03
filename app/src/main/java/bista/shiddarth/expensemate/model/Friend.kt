@@ -7,6 +7,5 @@ data class Friend(
     val id: UUID,
     val firstName: String,
     val lastName: String,
-    val profilePicture: Int = R.drawable.ic_user,
     val email: String
 )

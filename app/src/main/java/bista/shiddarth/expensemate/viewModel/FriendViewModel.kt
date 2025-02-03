@@ -17,9 +17,10 @@ class FriendViewModel : ViewModel() {
     private fun loadInitialFriends() {
         friends.addAll(
             listOf(
-                Friend(UUID.randomUUID(),"Gary", "Whittaker", R.drawable.background3, "avc@gmail.com"),
-                Friend(UUID.randomUUID(),"Tim", "Horton", R.drawable.ic_user, "avc@gmail.com"),
-                Friend(UUID.randomUUID(),"Alice", "Wonderland", R.drawable.background3, "avc@gmail.com")
+                Friend(UUID.randomUUID(),"Gary", "Whittaker", "avc@gmail.com"),
+                Friend(UUID.randomUUID(),"Tim", "Horton", "avc@gmail.com"),
+                Friend(UUID.randomUUID(),"Alice", "Wonderland","avc@gmail.com"),
+                Friend(UUID.randomUUID(),"Alice", "Borderland", "avc@gmail.com")
             ),
         )
     }
