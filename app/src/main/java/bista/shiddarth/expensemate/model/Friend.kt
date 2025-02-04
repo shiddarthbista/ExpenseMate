@@ -8,5 +8,5 @@ data class Friend(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val balance: Double = 0.0
+    val expenses: List<Expense>
 )

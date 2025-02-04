@@ -160,7 +160,9 @@ fun FriendDetails(
                     .padding(top = 15.dp),
                 contentAlignment = Alignment.TopCenter
             ) {
-                BalanceText(balance = friend.balance)
+                val totalBalance = friend.expenses.sumOf { it.price }
+
+                BalanceText(balance = totalBalance)
             }
         }
     }
