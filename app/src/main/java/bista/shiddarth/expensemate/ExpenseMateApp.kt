@@ -1,5 +1,6 @@
 package bista.shiddarth.expensemate
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -15,6 +16,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -23,10 +26,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import bista.shiddarth.expensemate.composables.CreateGroup
+import bista.shiddarth.expensemate.composables.FriendDetail
 import bista.shiddarth.expensemate.composables.GroupDetail
 import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.screens.FriendsScreen
 import bista.shiddarth.expensemate.screens.GroupScreen
+import bista.shiddarth.expensemate.ui.theme.expenseMateGray
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
 import bista.shiddarth.expensemate.viewModel.FriendViewModel
 import bista.shiddarth.expensemate.viewModel.GroupViewModel
@@ -51,7 +56,7 @@ fun ExpenseMateApp() {
         bottomBar = {
             if (currentDestination?.route != Screens.CreateGroup.route) {
                 NavigationBar(
-                    containerColor = Color(0xFF202124)
+                    containerColor = expenseMateGray
                 ) {
                     screens.forEachIndexed { index, screens ->
                         NavigationBarItem(
@@ -103,6 +108,14 @@ fun ExpenseMateApp() {
                 val selectedGroup = groupViewModel.findGroup(groupName)
                 GroupDetail(selectedGroup, navController, {},{},{},{})
             }
+            composable(
+                route = Screens.FriendDetail.route,
+                arguments = listOf(navArgument("friendId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val friendId = backStackEntry.arguments?.getString("friendId").orEmpty()
+                val selectedFriend = friendViewModel.findFriend(friendId)
+                FriendDetail(selectedFriend, navController)
+            }
             composable(Screens.CreateGroup.route) {
                 CreateGroup(navController,groupViewModel)
             }
@@ -116,6 +129,7 @@ fun ActivityScreen() {
     Text(text = "Activity Screen")
 }
 
+@Preview
 @Composable
 fun AccountScreen() {
     Text(text = "Account Screen")

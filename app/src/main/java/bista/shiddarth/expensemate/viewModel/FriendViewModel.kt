@@ -33,7 +33,7 @@ class FriendViewModel : ViewModel() {
         friends.remove(friend)
     }
 
-    fun findFriend(friendId: String): Friend? {
-        return friends.find { it.id.toString() == friendId }
+    fun findFriend(friendId: String): Friend{
+        return friends.first { it.id.toString() == friendId }
     }
 }
