@@ -17,10 +17,10 @@ class FriendViewModel : ViewModel() {
     private fun loadInitialFriends() {
         friends.addAll(
             listOf(
-                Friend(UUID.randomUUID(),"Gary", "Whittaker", "avc@gmail.com"),
-                Friend(UUID.randomUUID(),"Tim", "Horton", "avc@gmail.com"),
-                Friend(UUID.randomUUID(),"Alice", "Wonderland","avc@gmail.com"),
-                Friend(UUID.randomUUID(),"Alice", "Borderland", "avc@gmail.com")
+                Friend(UUID.randomUUID(),"Gary", "Whittaker", "gwhittaker@gmail.com",0.0),
+                Friend(UUID.randomUUID(),"Tim", "Horton", "timhortins@hotmail.com", 10.0),
+                Friend(UUID.randomUUID(),"Alice", "Wonderland","awonderland123@gmail.com", -10.0),
+                Friend(UUID.randomUUID(),"Alice", "Borderland", "borderlands@yahoo.com", 0.0)
             ),
         )
     }
@@ -33,7 +33,7 @@ class FriendViewModel : ViewModel() {
         friends.remove(friend)
     }
 
-    fun findFriend(friendId: String): Friend? {
-        return friends.find { it.id.toString() == friendId }
+    fun findFriend(friendId: String): Friend{
+        return friends.first { it.id.toString() == friendId }
     }
 }
