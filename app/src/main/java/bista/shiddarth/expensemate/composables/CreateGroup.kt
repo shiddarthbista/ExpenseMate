@@ -19,13 +19,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -42,6 +46,13 @@ fun CreateGroup(
     groupViewModel: GroupViewModel = viewModel()
 ) {
     var groupName by remember { mutableStateOf("") }
+    val groupNameFocusRequester = remember { FocusRequester() }
+    var isGroupFieldBlank by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        groupNameFocusRequester.requestFocus()
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -53,8 +64,19 @@ fun CreateGroup(
                 },
                 actions = {
                     IconButton(onClick = {
-                        groupViewModel.addNewGroup(Group(groupName, R.drawable.background6, "New group created"))
-                        navController.popBackStack()
+                        if (groupName.isBlank()){
+                            isGroupFieldBlank = true
+                        } else {
+                            isGroupFieldBlank = false
+                            groupViewModel.addNewGroup(
+                                Group(
+                                    groupName,
+                                    R.drawable.background6,
+                                    "New group created"
+                                )
+                            )
+                            navController.popBackStack()
+                        }
                     }) {
                         Icon(Icons.Filled.Done, "Done")
                     }
@@ -79,12 +101,25 @@ fun CreateGroup(
                     groupName = it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
                 },
                 label = { Text("Group Name") },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .focusRequester(groupNameFocusRequester),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = {
-                    groupViewModel.addNewGroup(Group(groupName, R.drawable.background6, "New group created"))
-                    navController.popBackStack()
-                })
+                    if (groupName.isBlank()){
+                        isGroupFieldBlank = true
+                    } else {
+                        groupViewModel.addNewGroup(
+                            Group(
+                                groupName,
+                                R.drawable.background6,
+                                "New group created"
+                            )
+                        )
+                        navController.popBackStack()
+                    }
+                }),
+                isError = isGroupFieldBlank,
+                supportingText = { if (isGroupFieldBlank) Text(text = "Group name cannot be empty") }
             )
         }
     }
