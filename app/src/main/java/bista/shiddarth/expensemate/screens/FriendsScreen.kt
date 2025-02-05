@@ -91,7 +91,7 @@ fun FriendsScreen(
             ) {
                 OutlinedButton(
                     onClick = {
-                        navController.navigate(Screens.CreateGroup.route)
+                        navController.navigate(Screens.AddFriend.route)
                     },
                     colors = ButtonColors(
                         contentColor = kellyGreen,

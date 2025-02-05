@@ -31,7 +31,7 @@ class FriendViewModel : ViewModel() {
         )
     }
 
-    fun addFriend(friend: Friend) {
+    fun addNewFriend(friend: Friend) {
         friends.add(friend)
     }
 

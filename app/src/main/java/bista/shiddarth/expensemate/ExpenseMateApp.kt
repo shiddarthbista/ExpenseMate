@@ -1,6 +1,5 @@
 package bista.shiddarth.expensemate
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -17,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -25,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import bista.shiddarth.expensemate.composables.AddFriend
 import bista.shiddarth.expensemate.composables.CreateGroup
 import bista.shiddarth.expensemate.composables.FriendDetail
 import bista.shiddarth.expensemate.composables.GroupDetail
@@ -54,7 +53,7 @@ fun ExpenseMateApp() {
 
     Scaffold(
         bottomBar = {
-            if (currentDestination?.route != Screens.CreateGroup.route) {
+            if (currentDestination?.route != Screens.CreateGroup.route || currentDestination.route != Screens.AddFriend.route) {
                 NavigationBar(
                     containerColor = expenseMateGray
                 ) {
@@ -119,6 +118,11 @@ fun ExpenseMateApp() {
             composable(Screens.CreateGroup.route) {
                 CreateGroup(navController,groupViewModel)
             }
+            composable(Screens.AddFriend.route) {
+                AddFriend(navController, friendViewModel)
+            }
+
+
         }
     }
 
