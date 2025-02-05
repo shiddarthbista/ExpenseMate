@@ -2,6 +2,7 @@ package bista.shiddarth.expensemate.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +17,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,32 +38,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import bista.shiddarth.expensemate.R
+import bista.shiddarth.expensemate.model.Expense
 import bista.shiddarth.expensemate.model.Friend
 import bista.shiddarth.expensemate.screens.BalanceText
 import bista.shiddarth.expensemate.screens.InitialAvatar
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FriendDetail(
     friend: Friend,
     navController: NavHostController,
-    ) {
+) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val lazyListState = rememberLazyListState()
-
-    val expenses = listOf(
-        Expense(
-            month = "Feb",
-            date = "20",
-            category = "Food",
-            categoryImage = R.drawable.flowers,
-            name = "Dinner at The Bistro",
-            balance = -25.50
-        )
-    )
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -102,7 +93,11 @@ fun FriendDetail(
                             .offset(y = (-40).dp)
                             .padding(start = 50.dp)
                     ) {
-                        InitialAvatar(firstName = friend.firstName, lastName =friend.lastName, 40.sp)
+                        InitialAvatar(
+                            firstName = friend.firstName,
+                            lastName = friend.lastName,
+                            40.sp
+                        )
                         Spacer(modifier = Modifier.height(20.dp))
                         Text(
                             text = "${friend.firstName} ${friend.lastName}",
@@ -123,20 +118,31 @@ fun FriendDetail(
                     .background(Color(0xFF0E1415))
                     .weight(1f)
             ) {
-                items(expenses, key = { expense -> expense.id.toString() }) { expense ->
-                    ExpenseRow(expense, friend.balance)
+                items(
+                    items = friend.expenses,
+                    key = { expense -> expense.id }
+                ) { expense ->
+                    ExpenseRow(expense = expense)
+                    if (friend.expenses.size > 1) {
+                        HorizontalDivider(thickness = 1.dp, color = Color.Gray)
+                    }
                 }
             }
 
-            Text("Total Balance: ${friend.balance}",
-                color = if (friend.balance > 0 ) kellyGreen else Color.Red )
+
+            val totalBalance = friend.expenses.sumOf { it.price }
+            Text(
+                "Total Balance: $totalBalance",
+                color = if (totalBalance > 0) kellyGreen else Color.Red
+            )
 
         }
     }
 }
 
+
 @Composable
-fun ExpenseRow(expense: Expense,balance: Double) {
+fun ExpenseRow(expense: Expense) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -160,7 +166,7 @@ fun ExpenseRow(expense: Expense,balance: Double) {
         Spacer(modifier = Modifier.width(16.dp))
 
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             Text(
                 text = expense.name,
@@ -170,16 +176,6 @@ fun ExpenseRow(expense: Expense,balance: Double) {
             )
         }
 
-        BalanceText(balance)
+        BalanceText(expense.price)
     }
 }
-
-data class Expense(
-    val id: UUID? = UUID.randomUUID(),
-    val month: String,
-    val date: String,
-    val category: String,
-    val categoryImage: Int,
-    val name: String,
-    val balance: Double
-)

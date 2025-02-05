@@ -3,4 +3,7 @@
     <string name="create_new_group">Create a new group</string>
     <string name="add_expenses">Add Expenses</string>
     <string name="add_more_friends">Add more friends</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email Address</string>
 </resources>
