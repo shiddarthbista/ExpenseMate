@@ -158,9 +158,10 @@ fun ExpenseRow(expense: Expense) {
         Spacer(modifier = Modifier.width(16.dp))
 
         Image(
-            painter = painterResource(id = expense.categoryImage),
-            contentDescription = expense.category,
+            painter = painterResource(id = expense.category.categoryImage),
+            contentDescription = expense.category.name,
             modifier = Modifier.size(40.dp)
+                .background(expense.category.backgroundColor)
         )
 
         Spacer(modifier = Modifier.width(16.dp))

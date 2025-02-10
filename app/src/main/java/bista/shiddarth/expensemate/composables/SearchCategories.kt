@@ -1,6 +1,5 @@
 package bista.shiddarth.expensemate.composables
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,7 +36,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -58,40 +56,52 @@ fun SearchCategories(expenseViewModel: ExpenseViewModel, navController: NavContr
         CategorySection(
             "Entertainment",
             listOf(
-                Category("Movie", R.drawable.ic_money, Color.Red),
-                Category("Music", R.drawable.ic_user, Color.Red),
-                Category("Movie", R.drawable.ic_money, Color.Red),
-                Category("Music", R.drawable.ic_user, Color.Red),
+                Category("Games", R.drawable.ic_games, Color(0xFF7ECFDC)),
+                Category("Movies", R.drawable.ic_movies, Color(0xFF7ECFDC)),
+                Category("Sports", R.drawable.ic_sports, Color(0xFF7ECFDC)),
+                Category("Music", R.drawable.ic_music, Color(0xFF7ECFDC)),
             )
         ),
         CategorySection(
             "Food and Drink",
             listOf(
-                Category("Food", R.drawable.ic_money, Color.Red),
-                Category("Drink", R.drawable.ic_user, Color.Red),
+                Category("Dining Out", R.drawable.ic_dining_out, Color(0xFFFFD2CC)),
+                Category("Groceries", R.drawable.ic_grocery, Color(0xFFFFD2CC)),
+                Category("Liquor", R.drawable.ic_liquor, Color(0xFFFFD2CC))
             )
         ),
         CategorySection(
-            "Hom3e",
+            "Uncategorized",
             listOf(
-                Category("Chair", R.drawable.ic_account, Color.Yellow),
-                Category("Table", R.drawable.ic_activity, Color.Green),
+                Category("General", R.drawable.ic_general, Color(0xFFFFFFFF))
             )
         ),
         CategorySection(
             "Home",
             listOf(
-                Category("Chair", R.drawable.ic_account, Color.Yellow),
-                Category("Table", R.drawable.ic_activity, Color.Green),
-                Category("Chair", R.drawable.ic_account, Color.Yellow),
-                Category("Table", R.drawable.ic_activity, Color.Green),
+                Category("Electronics", R.drawable.ic_electronics, Color(0xFFA9ED78)),
+                Category("Furniture", R.drawable.ic_furniture,Color(0xFFA9ED78)),
+                Category("Household supplies", R.drawable.ic_household_supplies,Color(0xFFA9ED78)),
+                Category("Mortgage/Rent", R.drawable.ic_mortgage, Color(0xFFA9ED78)),
+                Category("Pets", R.drawable.ic_pets, Color(0xFFA9ED78))
             )
         ),
         CategorySection(
-            "Home2",
+            "Life",
             listOf(
-                Category("Chair", R.drawable.ic_account, Color.Yellow),
-                Category("Table", R.drawable.ic_activity, Color.Green),
+                Category("Clothing", R.drawable.ic_clothes, Color(0xFF8CBAB4)),
+                Category("Education", R.drawable.ic_bookshelf, Color(0xFF8CBAB4)),
+                Category("Gifts", R.drawable.ic_gifts, Color(0xFF8CBAB4)),
+                Category("Medical", R.drawable.ic_medical, Color(0xFF8CBAB4)),
+            )
+        ),
+        CategorySection(
+            "Transportation",
+            listOf(
+                Category("Gas", R.drawable.ic_gas, Color(0xFF8B8BE9)),
+                Category("Bus/Train", R.drawable.ic_train, Color(0xFF8B8BE9)),
+                Category("Parking", R.drawable.ic_parking, Color(0xFF8B8BE9)),
+                Category("Uber", R.drawable.ic_uber, Color(0xFF8B8BE9))
             )
         )
     )
@@ -117,12 +127,11 @@ fun SearchCategories(expenseViewModel: ExpenseViewModel, navController: NavContr
                             .padding(top = 8.dp)
                             .focusRequester(focusRequester),
                         singleLine = true,
-                        colors = TextFieldDefaults.colors(cursorColor = kellyGreen)
+                        colors = TextFieldDefaults.colors(cursorColor = kellyGreen, focusedIndicatorColor = kellyGreen)
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                    }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
                     }
                 },
@@ -163,7 +172,6 @@ fun CategoryHeader(title: String) {
         Text(text = title,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 16.dp),
             color = Color.White
             )
     }
