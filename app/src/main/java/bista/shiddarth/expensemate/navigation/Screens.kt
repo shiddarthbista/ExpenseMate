@@ -14,4 +14,5 @@ sealed class Screens(val route: String, val label: String, val icon: Int) {
     data object FriendDetail : Screens("friendDetail/{friendId}", "Friend Detail", R.drawable.ic_groups)
     data object ExpenseScreen : Screens("expense_screen", "Expense_Screen", R.drawable.ic_money)
     data object SearchFriendScreen : Screens("search_screen", "Search_Screen", R.drawable.ic_account)
+    data object SearchCategories : Screens("search_categories_screen", "Search_Category", R.drawable.ic_activity)
 }
