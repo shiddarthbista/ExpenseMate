@@ -1,5 +1,7 @@
 package bista.shiddarth.expensemate.composables
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +25,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -69,6 +70,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import bista.shiddarth.expensemate.R
+import bista.shiddarth.expensemate.model.Category
 import bista.shiddarth.expensemate.model.Friend
 import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.screens.InitialAvatar
@@ -94,13 +96,8 @@ fun AddExpenseScreen(navController: NavHostController, expenseViewModel: Expense
                     .windowInsetsPadding(WindowInsets.statusBars)
                     .offset(y = (-50).dp),
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* Save action */ }) {
-                        Icon(Icons.Filled.Check, contentDescription = "done")
                     }
                 }
             )
@@ -145,13 +142,25 @@ fun AddExpenseScreen(navController: NavHostController, expenseViewModel: Expense
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_groups),
-                        contentDescription = "Category",
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clickable { /* Open category picker */ }
-                    )
+                    if (expenseViewModel.selectedCategory == null) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_groups),
+                            contentDescription = "Category",
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clickable { navController.navigate(Screens.SearchCategories.route) }
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(id = expenseViewModel.selectedCategory!!.categoryImage),
+                            contentDescription = expenseViewModel.selectedCategory!!.name,
+                            modifier = Modifier
+                                .size(60.dp)
+                                .background(expenseViewModel.selectedCategory!!.backgroundColor)
+                                .clickable { navController.navigate(Screens.SearchCategories.route) },
+                        )
+
+                    }
                 }
 
                 Spacer(modifier = Modifier.width(10.dp))
@@ -188,7 +197,7 @@ fun AddExpenseScreen(navController: NavHostController, expenseViewModel: Expense
                         contentDescription = "Category",
                         modifier = Modifier
                             .size(68.dp)
-                    )
+                        )
                 }
 
                 Spacer(modifier = Modifier.width(10.dp))
@@ -280,6 +289,7 @@ fun SearchScreen(
                 title = {
                     TextField(
                         value = searchQuery,
+                        placeholder = { Text(text = "Search friend")},
                         onValueChange = { userSearchQuery ->
                             searchQuery = userSearchQuery
                             filteredFriends = if (userSearchQuery.isBlank()) {
@@ -295,7 +305,6 @@ fun SearchScreen(
                                 }
                             }
                         },
-                        label = { Text("Search") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp)

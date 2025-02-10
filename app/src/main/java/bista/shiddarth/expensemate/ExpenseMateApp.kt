@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -28,7 +29,9 @@ import bista.shiddarth.expensemate.composables.AddFriend
 import bista.shiddarth.expensemate.composables.CreateGroup
 import bista.shiddarth.expensemate.composables.FriendDetail
 import bista.shiddarth.expensemate.composables.GroupDetail
+import bista.shiddarth.expensemate.composables.SearchCategories
 import bista.shiddarth.expensemate.composables.SearchScreen
+import bista.shiddarth.expensemate.model.Category
 import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.screens.FriendsScreen
 import bista.shiddarth.expensemate.screens.GroupScreen
@@ -59,7 +62,8 @@ fun ExpenseMateApp() {
         Screens.CreateGroup.route,
         Screens.AddFriend.route,
         Screens.ExpenseScreen.route,
-        Screens.SearchFriendScreen.route
+        Screens.SearchFriendScreen.route,
+        Screens.SearchCategories.route
     )
 
     Scaffold(
@@ -138,6 +142,9 @@ fun ExpenseMateApp() {
             }
             composable(Screens.SearchFriendScreen.route) {
                 SearchScreen(navController, expenseViewModel, friendViewModel.friends)
+            }
+            composable(Screens.SearchCategories.route){
+                SearchCategories(expenseViewModel = expenseViewModel, navController = navController)
             }
         }
     }
