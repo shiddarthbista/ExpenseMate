@@ -13,28 +13,20 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="CollapsingAppBarScreen">
+      <SelectionState runConfigName="AddExpenseScreen">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CollapsingAppBarScreen2">
+      <SelectionState runConfigName="WithYouSearchableList">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CollapsingAppBarScreen3">
+      <SelectionState runConfigName="WithYouSearchableList3">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="FriendDetail">
+      <SelectionState runConfigName="SearchScreen">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="AccountScreen">
+      <SelectionState runConfigName="ChipPreview">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-02-04T22:38:38.441991400Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=2A031JEGR03240" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
       </SelectionState>
     </selectionStates>
   </component>
