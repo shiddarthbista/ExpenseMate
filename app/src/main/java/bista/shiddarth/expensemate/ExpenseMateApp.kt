@@ -23,15 +23,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import bista.shiddarth.expensemate.composables.AddExpenseScreen
 import bista.shiddarth.expensemate.composables.AddFriend
 import bista.shiddarth.expensemate.composables.CreateGroup
 import bista.shiddarth.expensemate.composables.FriendDetail
 import bista.shiddarth.expensemate.composables.GroupDetail
+import bista.shiddarth.expensemate.composables.SearchScreen
 import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.screens.FriendsScreen
 import bista.shiddarth.expensemate.screens.GroupScreen
 import bista.shiddarth.expensemate.ui.theme.expenseMateGray
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
+import bista.shiddarth.expensemate.viewModel.ExpenseViewModel
 import bista.shiddarth.expensemate.viewModel.FriendViewModel
 import bista.shiddarth.expensemate.viewModel.GroupViewModel
 
@@ -39,6 +42,7 @@ import bista.shiddarth.expensemate.viewModel.GroupViewModel
 fun ExpenseMateApp() {
     val groupViewModel: GroupViewModel = viewModel()
     val friendViewModel: FriendViewModel = viewModel()
+    val expenseViewModel: ExpenseViewModel = viewModel()
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination
@@ -51,9 +55,16 @@ fun ExpenseMateApp() {
         Screens.AccountScreen,
     )
 
+    val routesWithoutBottomNavBar = listOf(
+        Screens.CreateGroup.route,
+        Screens.AddFriend.route,
+        Screens.ExpenseScreen.route,
+        Screens.SearchFriendScreen.route
+    )
+
     Scaffold(
         bottomBar = {
-            if (currentDestination?.route != Screens.CreateGroup.route || currentDestination.route != Screens.AddFriend.route) {
+            if (!routesWithoutBottomNavBar.any { it == currentDestination?.route }) {
                 NavigationBar(
                     containerColor = expenseMateGray
                 ) {
@@ -76,7 +87,8 @@ fun ExpenseMateApp() {
                                         Color.White
                                     }
                                 )
-                            })
+                            }
+                        )
                     }
                 }
             }
@@ -105,7 +117,7 @@ fun ExpenseMateApp() {
             ) { backStackEntry ->
                 val groupName = backStackEntry.arguments?.getString("groupName").orEmpty()
                 val selectedGroup = groupViewModel.findGroup(groupName)
-                GroupDetail(selectedGroup, navController, {},{},{},{})
+                GroupDetail(selectedGroup, navController, {}, {}, {}, {})
             }
             composable(
                 route = Screens.FriendDetail.route,
@@ -116,13 +128,17 @@ fun ExpenseMateApp() {
                 FriendDetail(selectedFriend, navController)
             }
             composable(Screens.CreateGroup.route) {
-                CreateGroup(navController,groupViewModel)
+                CreateGroup(navController, groupViewModel)
             }
             composable(Screens.AddFriend.route) {
                 AddFriend(navController, friendViewModel)
             }
-
-
+            composable(Screens.ExpenseScreen.route) {
+                AddExpenseScreen(navController, expenseViewModel)
+            }
+            composable(Screens.SearchFriendScreen.route) {
+                SearchScreen(navController, expenseViewModel, friendViewModel.friends)
+            }
         }
     }
 

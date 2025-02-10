@@ -1,24 +1,22 @@
 package bista.shiddarth.expensemate.composables
 
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavHostController
 import bista.shiddarth.expensemate.R
+import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
 
 @Composable
-fun AddExpensesFAB(expandedFab : Boolean) {
+fun AddExpensesFAB(expandedFab : Boolean, navController: NavHostController) {
     ExtendedFloatingActionButton(
-        onClick = { /* do something */ },
+        onClick = { navController.navigate(Screens.ExpenseScreen.route) },
         expanded = expandedFab,
         containerColor = kellyGreen,
         contentColor = Color.White,

@@ -219,6 +219,7 @@ val surfaceContainerHighestDarkHighContrast = Color(0xFF424849)
 
 val kellyGreen =  Color(0xFF07B862)
 val expenseMateGray = Color(0xFF202124)
+val surfaceGray = Color(0xFF0E1415)
 
 
 

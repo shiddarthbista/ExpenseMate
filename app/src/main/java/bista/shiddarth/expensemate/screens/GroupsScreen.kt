@@ -57,7 +57,7 @@ fun GroupScreen(
     val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
     Scaffold(
         floatingActionButton = {
-            AddExpensesFAB(expandedFab)
+            AddExpensesFAB(expandedFab, navController)
         },
         floatingActionButtonPosition = FabPosition.End,
     ) { innerPadding ->

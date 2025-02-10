@@ -59,7 +59,7 @@ fun FriendsScreen(
     val listState = rememberLazyListState()
     val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
     Scaffold(
-        floatingActionButton = { AddExpensesFAB(expandedFab) },
+        floatingActionButton = { AddExpensesFAB(expandedFab, navController) },
         floatingActionButtonPosition = FabPosition.End,
     ) { innerPadding ->
         Box(
