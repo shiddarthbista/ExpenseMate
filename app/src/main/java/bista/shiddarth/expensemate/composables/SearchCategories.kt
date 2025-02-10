@@ -73,7 +73,7 @@ fun SearchCategories(expenseViewModel: ExpenseViewModel, navController: NavContr
         CategorySection(
             "Uncategorized",
             listOf(
-                Category("General", R.drawable.ic_general, Color(0xFFFFFFFF))
+                Category("General", R.drawable.ic_general, Color(0xFFF8F0E3))
             )
         ),
         CategorySection(

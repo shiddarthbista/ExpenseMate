@@ -3,9 +3,11 @@ package bista.shiddarth.expensemate.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -31,6 +33,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
@@ -129,14 +132,23 @@ fun FriendDetail(
                 }
             }
 
-
             val totalBalance = friend.expenses.sumOf { it.price }
-            Text(
-                "Total Balance: $totalBalance",
-                color = if (totalBalance > 0) kellyGreen else Color.Red
-            )
+            TotalBalanceDisplay(totalBalance)
 
         }
+    }
+}
+
+@Composable
+private fun TotalBalanceDisplay(totalBalance: Double) {
+    Box(
+        Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            "Total Balance: $totalBalance",
+            color = if (totalBalance > 0) kellyGreen else Color.Red
+        )
     }
 }
 
@@ -146,7 +158,8 @@ fun ExpenseRow(expense: Expense) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -167,7 +180,9 @@ fun ExpenseRow(expense: Expense) {
         Spacer(modifier = Modifier.width(16.dp))
 
         Column(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f)
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = expense.name,
