@@ -62,6 +62,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -70,17 +71,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import bista.shiddarth.expensemate.R
-import bista.shiddarth.expensemate.model.Category
+import bista.shiddarth.expensemate.model.Expense
 import bista.shiddarth.expensemate.model.Friend
 import bista.shiddarth.expensemate.navigation.Screens
 import bista.shiddarth.expensemate.screens.InitialAvatar
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
 import bista.shiddarth.expensemate.ui.theme.surfaceGray
 import bista.shiddarth.expensemate.viewModel.ExpenseViewModel
+import bista.shiddarth.expensemate.viewModel.FriendViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddExpenseScreen(navController: NavHostController, expenseViewModel: ExpenseViewModel) {
+fun AddExpenseScreen(navController: NavHostController, expenseViewModel: ExpenseViewModel, friendViewModel: FriendViewModel) {
     val selectedFriend = expenseViewModel.selectedFriend
     var expenseName by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
@@ -110,7 +112,20 @@ fun AddExpenseScreen(navController: NavHostController, expenseViewModel: Expense
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Button(
-                    onClick = { /* Handle submit action */ },
+                    onClick = {
+                        if (selectedFriend != null) {
+                            friendViewModel.addExpense(
+                                selectedFriend.id.toString(), Expense(
+                                    month = "Feb",
+                                    date = "10",
+                                    category = expenseViewModel.selectedCategory,
+                                    name = expenseName,
+                                    price = amount.toDouble()
+                                )
+                            )
+                            navController.navigate("friendDetail/${selectedFriend.id}")
+                        }
+                    },
                     enabled = submitButtonEnabled,
                     colors = ButtonDefaults.buttonColors(
                         disabledContainerColor = Color.LightGray,
@@ -139,28 +154,18 @@ fun AddExpenseScreen(navController: NavHostController, expenseViewModel: Expense
                         .size(60.dp)
                         .border(width = 2.dp, color = Color.Gray, shape = RoundedCornerShape(8.dp))
                         .clip(RoundedCornerShape(8.dp))
-                        .padding(16.dp),
+                        .background(expenseViewModel.selectedCategory.backgroundColor),
                     contentAlignment = Alignment.Center
                 ) {
-                    if (expenseViewModel.selectedCategory == null) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_groups),
-                            contentDescription = "Category",
-                            modifier = Modifier
-                                .size(48.dp)
-                                .clickable { navController.navigate(Screens.SearchCategories.route) }
-                        )
-                    } else {
-                        Image(
-                            painter = painterResource(id = expenseViewModel.selectedCategory!!.categoryImage),
-                            contentDescription = expenseViewModel.selectedCategory!!.name,
-                            modifier = Modifier
-                                .size(60.dp)
-                                .background(expenseViewModel.selectedCategory!!.backgroundColor)
-                                .clickable { navController.navigate(Screens.SearchCategories.route) },
-                        )
-
-                    }
+                    Image(
+                        painter = painterResource(id = expenseViewModel.selectedCategory.categoryImage),
+                        contentDescription = expenseViewModel.selectedCategory.name,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .background(expenseViewModel.selectedCategory.backgroundColor)
+                            .clickable { navController.navigate(Screens.SearchCategories.route) },
+                        contentScale = ContentScale.Crop
+                    )
                 }
 
                 Spacer(modifier = Modifier.width(10.dp))
@@ -189,14 +194,15 @@ fun AddExpenseScreen(navController: NavHostController, expenseViewModel: Expense
                         .size(60.dp)
                         .border(width = 2.dp, color = Color.Gray, shape = RoundedCornerShape(8.dp))
                         .clip(RoundedCornerShape(8.dp))
-                        .padding(16.dp),
+                        .background(Color(0xFFF8F0E3)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_money),
+                        tint = kellyGreen,
                         contentDescription = "Category",
                         modifier = Modifier
-                            .size(68.dp)
+                            .size(40.dp)
                         )
                 }
 
@@ -221,7 +227,7 @@ fun AddExpenseScreen(navController: NavHostController, expenseViewModel: Expense
 
             Spacer(modifier = Modifier.padding(20.dp))
 
-            if (!selectedFriend.isNullOrBlank()) {
+            if (selectedFriend != null) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
@@ -230,7 +236,7 @@ fun AddExpenseScreen(navController: NavHostController, expenseViewModel: Expense
                     Text(text = "Paid By: ")
                     Spacer(modifier = Modifier.width(10.dp))
                     SingleChoiceSegmentedButton(
-                        selectedFriend = selectedFriend
+                        selectedFriend = selectedFriend.firstName
                     )
                 }
 
@@ -249,7 +255,7 @@ fun AddExpenseScreen(navController: NavHostController, expenseViewModel: Expense
 @Composable
 fun WithYouSection(
     navController: NavHostController,
-    selectedFriend: String?,
+    selectedFriend: Friend?,
     expenseViewModel: ExpenseViewModel
 ) {
     Row(
@@ -266,7 +272,7 @@ fun WithYouSection(
             })
         } else {
             Chip(
-                selectedFriend
+                selectedFriend.firstName
             ) { expenseViewModel.resetSelectedFriend() }
         }
     }
@@ -342,7 +348,7 @@ fun SearchScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                expenseViewModel.updateSelectedFriend(friend.firstName)
+                                expenseViewModel.updateSelectedFriend(friend)
                                 navController.popBackStack()
                                 searchQuery = ""
                                 filteredFriends = friendList

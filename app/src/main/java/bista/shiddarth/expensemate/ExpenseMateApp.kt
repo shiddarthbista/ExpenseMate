@@ -138,7 +138,7 @@ fun ExpenseMateApp() {
                 AddFriend(navController, friendViewModel)
             }
             composable(Screens.ExpenseScreen.route) {
-                AddExpenseScreen(navController, expenseViewModel)
+                AddExpenseScreen(navController, expenseViewModel, friendViewModel)
             }
             composable(Screens.SearchFriendScreen.route) {
                 SearchScreen(navController, expenseViewModel, friendViewModel.friends)

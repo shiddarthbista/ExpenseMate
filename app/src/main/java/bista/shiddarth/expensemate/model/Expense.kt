@@ -7,8 +7,7 @@ data class Expense(
     val id: UUID = UUID.randomUUID(),
     val month: String,
     val date: String,
-    val category: String,
-    val categoryImage: Int,
+    val category: Category,
     val name: String,
     val price: Double
 )

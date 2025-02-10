@@ -8,5 +8,5 @@ data class Friend(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val expenses: List<Expense> = emptyList()
+    val expenses: MutableList<Expense> = mutableListOf()
 )
