@@ -51,60 +51,7 @@ import bista.shiddarth.expensemate.viewModel.ExpenseViewModel
 fun SearchCategories(expenseViewModel: ExpenseViewModel, navController: NavController) {
     var searchQuery by remember { mutableStateOf("")}
     val focusRequester = remember { FocusRequester() }
-
-    val categories = listOf(
-        CategorySection(
-            "Entertainment",
-            listOf(
-                Category("Games", R.drawable.ic_games, Color(0xFF7ECFDC)),
-                Category("Movies", R.drawable.ic_movies, Color(0xFF7ECFDC)),
-                Category("Sports", R.drawable.ic_sports, Color(0xFF7ECFDC)),
-                Category("Music", R.drawable.ic_music, Color(0xFF7ECFDC)),
-            )
-        ),
-        CategorySection(
-            "Food and Drink",
-            listOf(
-                Category("Dining Out", R.drawable.ic_dining_out, Color(0xFFFFD2CC)),
-                Category("Groceries", R.drawable.ic_grocery, Color(0xFFFFD2CC)),
-                Category("Liquor", R.drawable.ic_liquor, Color(0xFFFFD2CC))
-            )
-        ),
-        CategorySection(
-            "Uncategorized",
-            listOf(
-                Category("General", R.drawable.ic_general, Color(0xFFF8F0E3))
-            )
-        ),
-        CategorySection(
-            "Home",
-            listOf(
-                Category("Electronics", R.drawable.ic_electronics, Color(0xFFA9ED78)),
-                Category("Furniture", R.drawable.ic_furniture,Color(0xFFA9ED78)),
-                Category("Household supplies", R.drawable.ic_household_supplies,Color(0xFFA9ED78)),
-                Category("Mortgage/Rent", R.drawable.ic_mortgage, Color(0xFFA9ED78)),
-                Category("Pets", R.drawable.ic_pets, Color(0xFFA9ED78))
-            )
-        ),
-        CategorySection(
-            "Life",
-            listOf(
-                Category("Clothing", R.drawable.ic_clothes, Color(0xFF8CBAB4)),
-                Category("Education", R.drawable.ic_bookshelf, Color(0xFF8CBAB4)),
-                Category("Gifts", R.drawable.ic_gifts, Color(0xFF8CBAB4)),
-                Category("Medical", R.drawable.ic_medical, Color(0xFF8CBAB4)),
-            )
-        ),
-        CategorySection(
-            "Transportation",
-            listOf(
-                Category("Gas", R.drawable.ic_gas, Color(0xFF8B8BE9)),
-                Category("Bus/Train", R.drawable.ic_train, Color(0xFF8B8BE9)),
-                Category("Parking", R.drawable.ic_parking, Color(0xFF8B8BE9)),
-                Category("Uber", R.drawable.ic_uber, Color(0xFF8B8BE9))
-            )
-        )
-    )
+    val categories = remember { getCategorySections() }
 
     val filteredCategories = if (searchQuery.isEmpty()){
         categories
@@ -161,6 +108,60 @@ fun SearchCategories(expenseViewModel: ExpenseViewModel, navController: NavContr
     }
 }
 
+private fun getCategorySections() = listOf(
+    CategorySection(
+        "Entertainment",
+        listOf(
+            Category("Games", R.drawable.ic_games, Color(0xFF7ECFDC)),
+            Category("Movies", R.drawable.ic_movies, Color(0xFF7ECFDC)),
+            Category("Sports", R.drawable.ic_sports, Color(0xFF7ECFDC)),
+            Category("Music", R.drawable.ic_music, Color(0xFF7ECFDC)),
+        )
+    ),
+    CategorySection(
+        "Food and Drink",
+        listOf(
+            Category("Dining Out", R.drawable.ic_dining_out, Color(0xFFFFD2CC)),
+            Category("Groceries", R.drawable.ic_grocery, Color(0xFFFFD2CC)),
+            Category("Liquor", R.drawable.ic_liquor, Color(0xFFFFD2CC))
+        )
+    ),
+    CategorySection(
+        "Uncategorized",
+        listOf(
+            Category("General", R.drawable.ic_general, Color(0xFFF8F0E3))
+        )
+    ),
+    CategorySection(
+        "Home",
+        listOf(
+            Category("Electronics", R.drawable.ic_electronics, Color(0xFFA9ED78)),
+            Category("Furniture", R.drawable.ic_furniture, Color(0xFFA9ED78)),
+            Category("Household supplies", R.drawable.ic_household_supplies, Color(0xFFA9ED78)),
+            Category("Mortgage/Rent", R.drawable.ic_mortgage, Color(0xFFA9ED78)),
+            Category("Pets", R.drawable.ic_pets, Color(0xFFA9ED78))
+        )
+    ),
+    CategorySection(
+        "Life",
+        listOf(
+            Category("Clothing", R.drawable.ic_clothes, Color(0xFF8CBAB4)),
+            Category("Education", R.drawable.ic_bookshelf, Color(0xFF8CBAB4)),
+            Category("Gifts", R.drawable.ic_gifts, Color(0xFF8CBAB4)),
+            Category("Medical", R.drawable.ic_medical, Color(0xFF8CBAB4)),
+        )
+    ),
+    CategorySection(
+        "Transportation",
+        listOf(
+            Category("Gas", R.drawable.ic_gas, Color(0xFF8B8BE9)),
+            Category("Bus/Train", R.drawable.ic_train, Color(0xFF8B8BE9)),
+            Category("Parking", R.drawable.ic_parking, Color(0xFF8B8BE9)),
+            Category("Uber", R.drawable.ic_uber, Color(0xFF8B8BE9))
+        )
+    )
+)
+
 @Composable
 fun CategoryHeader(title: String) {
     Box(
@@ -198,6 +199,5 @@ fun CategoryItemRow(category: Category, expenseViewModel: ExpenseViewModel,navCo
         }
         Spacer(modifier = Modifier.width(16.dp))
         Text(text = category.name, fontSize = 16.sp, color = Color.White)
-
     }
 }

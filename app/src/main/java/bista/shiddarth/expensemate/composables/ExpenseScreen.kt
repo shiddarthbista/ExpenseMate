@@ -90,7 +90,6 @@ import bista.shiddarth.expensemate.viewModel.FriendViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddExpenseScreen(
     navController: NavHostController,
@@ -101,7 +100,7 @@ fun AddExpenseScreen(
     var expenseName by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     var percentage by remember { mutableFloatStateOf(50f) }
-    var submitButtonEnabled by remember { mutableStateOf(false) }
+    val submitButtonEnabled = selectedFriend != null && expenseName.isNotBlank() && amount.isNotBlank()
     var payer by remember { mutableStateOf("You") }
 
     val focusManager = LocalFocusManager.current
@@ -114,20 +113,7 @@ fun AddExpenseScreen(
     }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Add Expense", fontSize = 28.sp) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .windowInsetsPadding(WindowInsets.statusBars)
-                    .offset(y = (-50).dp),
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        },
+        topBar = { ExpenseTopBar(navController) },
         bottomBar = {
             Box(
                 modifier = Modifier
@@ -184,29 +170,7 @@ fun AddExpenseScreen(
 
             if (selectedFriend != null) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(60.dp)
-                            .border(
-                                width = 2.dp,
-                                color = kellyGreen,
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(expenseViewModel.selectedCategory.backgroundColor),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = expenseViewModel.selectedCategory.categoryImage),
-                            contentDescription = expenseViewModel.selectedCategory.name,
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(expenseViewModel.selectedCategory.backgroundColor)
-                                .clickable { navController.navigate(Screens.SearchCategories.route) },
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-
+                    CategoryIcon(expenseViewModel) { navController.navigate(Screens.SearchCategories.route) }
                     Spacer(modifier = Modifier.width(10.dp))
 
                     TextField(
@@ -236,26 +200,7 @@ fun AddExpenseScreen(
                 Spacer(modifier = Modifier.padding(20.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(60.dp)
-                            .border(
-                                width = 2.dp,
-                                color = kellyGreen,
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(Color(0xFFF8F0E3)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_money),
-                            tint = kellyGreen,
-                            contentDescription = "Dollar Sign",
-                            modifier = Modifier
-                                .size(40.dp)
-                        )
-                    }
+                    DollarIcon()
 
                     Spacer(modifier = Modifier.width(10.dp))
 
@@ -286,19 +231,7 @@ fun AddExpenseScreen(
 
                 if (expenseName.isNotBlank() && amount.isNotBlank()) {
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = "Paid By: ")
-                        Spacer(modifier = Modifier.width(10.dp))
-                        SingleChoiceSegmentedButton(
-                            selectedFriend = selectedFriend.firstName,
-                            onSelectionChanged = { newPayer -> payer = newPayer }
-                        )
-                    }
-                    submitButtonEnabled = true
+                    PaymentSection(selectedFriend) { payer = it }
                     AmountSlider(
                         totalAmount = amount.toFloat(),
                         selectedPercentage = percentage,
@@ -307,6 +240,95 @@ fun AddExpenseScreen(
             }
         }
     }
+}
+
+@Composable
+private fun PaymentSection(
+    selectedFriend: Friend,
+    onPayerChange: (String) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = "Paid By: ")
+        Spacer(modifier = Modifier.width(10.dp))
+        SingleChoiceSegmentedButton(
+            selectedFriend = selectedFriend.firstName,
+            onSelectionChanged = onPayerChange
+        )
+    }
+}
+
+@Composable
+private fun DollarIcon() {
+    Box(
+        modifier = Modifier
+            .size(60.dp)
+            .border(
+                width = 2.dp,
+                color = kellyGreen,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xFFF8F0E3)),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_money),
+            tint = kellyGreen,
+            contentDescription = "Dollar Sign",
+            modifier = Modifier
+                .size(40.dp)
+        )
+    }
+}
+
+@Composable
+private fun CategoryIcon(
+    expenseViewModel: ExpenseViewModel,
+    onCategorySelect: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(60.dp)
+            .border(
+                width = 2.dp,
+                color = kellyGreen,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clip(RoundedCornerShape(8.dp))
+            .background(expenseViewModel.selectedCategory.backgroundColor),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = expenseViewModel.selectedCategory.categoryImage),
+            contentDescription = expenseViewModel.selectedCategory.name,
+            modifier = Modifier
+                .size(40.dp)
+                .background(expenseViewModel.selectedCategory.backgroundColor)
+                .clickable { onCategorySelect() },
+            contentScale = ContentScale.Crop
+        )
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun ExpenseTopBar(navController: NavHostController) {
+    TopAppBar(
+        title = { Text("Add Expense", fontSize = 28.sp) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.statusBars)
+            .offset(y = (-50).dp),
+        navigationIcon = {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+            }
+        }
+    )
 }
 
 @Composable
