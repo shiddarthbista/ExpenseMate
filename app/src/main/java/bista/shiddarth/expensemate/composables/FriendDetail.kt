@@ -3,9 +3,11 @@ package bista.shiddarth.expensemate.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -17,7 +19,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -129,14 +130,23 @@ fun FriendDetail(
                 }
             }
 
-
             val totalBalance = friend.expenses.sumOf { it.price }
-            Text(
-                "Total Balance: $totalBalance",
-                color = if (totalBalance > 0) kellyGreen else Color.Red
-            )
+            TotalBalanceDisplay(totalBalance)
 
         }
+    }
+}
+
+@Composable
+private fun TotalBalanceDisplay(totalBalance: Double) {
+    Box(
+        Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            "Total Balance: $totalBalance",
+            color = if (totalBalance > 0) kellyGreen else Color.Red
+        )
     }
 }
 
@@ -146,7 +156,8 @@ fun ExpenseRow(expense: Expense) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -167,7 +178,9 @@ fun ExpenseRow(expense: Expense) {
         Spacer(modifier = Modifier.width(16.dp))
 
         Column(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f)
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = expense.name,
