@@ -42,10 +42,11 @@ import bista.shiddarth.expensemate.viewModel.FriendViewModel
 import bista.shiddarth.expensemate.viewModel.GroupViewModel
 
 @Composable
-fun ExpenseMateApp() {
-    val groupViewModel: GroupViewModel = viewModel()
-    val friendViewModel: FriendViewModel = viewModel()
-    val expenseViewModel: ExpenseViewModel = viewModel()
+fun ExpenseMateApp(
+     groupViewModel: GroupViewModel = viewModel(),
+     friendViewModel: FriendViewModel = viewModel(),
+     expenseViewModel: ExpenseViewModel = viewModel()
+) {
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination
