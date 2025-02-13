@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-02-04T22:40:00.558019200Z">
+        <DropdownSelection timestamp="2025-02-13T20:31:05.989405Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=2A031JEGR03240" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Shiddarth Bista\.android\avd\Pixel_6_API_30_2.avd" />
             </handle>
           </Target>
         </DropdownSelection>
@@ -23,6 +23,9 @@
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="SearchCategories">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="ActivityScreen">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
