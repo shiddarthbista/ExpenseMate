@@ -33,6 +33,7 @@ import bista.shiddarth.expensemate.composables.SearchCategories
 import bista.shiddarth.expensemate.composables.SearchScreen
 import bista.shiddarth.expensemate.model.Category
 import bista.shiddarth.expensemate.navigation.Screens
+import bista.shiddarth.expensemate.screens.ActivityScreen
 import bista.shiddarth.expensemate.screens.FriendsScreen
 import bista.shiddarth.expensemate.screens.GroupScreen
 import bista.shiddarth.expensemate.ui.theme.expenseMateGray
@@ -111,7 +112,7 @@ fun ExpenseMateApp(
                 FriendsScreen(friendViewModel.friends, navController, onAddExpenseClick = {})
             }
             composable(Screens.ActivityScreen.route) {
-                ActivityScreen()
+                ActivityScreen(friendViewModel)
             }
             composable(Screens.AccountScreen.route) {
                 AccountScreen()
@@ -150,11 +151,6 @@ fun ExpenseMateApp(
         }
     }
 
-}
-
-@Composable
-fun ActivityScreen() {
-    Text(text = "Activity Screen")
 }
 
 @Preview
