@@ -1,5 +1,7 @@
 package bista.shiddarth.expensemate.composables
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -60,6 +62,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -90,6 +93,7 @@ import bista.shiddarth.expensemate.viewModel.FriendViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AddExpenseScreen(
     navController: NavHostController,
@@ -97,8 +101,8 @@ fun AddExpenseScreen(
     friendViewModel: FriendViewModel
 ) {
     val selectedFriend = expenseViewModel.selectedFriend
-    var expenseName by remember { mutableStateOf("") }
-    var amount by remember { mutableStateOf("") }
+    var expenseName by rememberSaveable { mutableStateOf("") }
+    var amount by rememberSaveable { mutableStateOf("") }
     var percentage by remember { mutableFloatStateOf(50f) }
     val submitButtonEnabled = selectedFriend != null && expenseName.isNotBlank() && amount.isNotBlank()
     var payer by remember { mutableStateOf("You") }

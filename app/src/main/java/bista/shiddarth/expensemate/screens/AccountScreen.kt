@@ -1,9 +1,15 @@
 package bista.shiddarth.expensemate.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +23,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Star
@@ -26,6 +34,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -113,49 +122,84 @@ fun AccountHeader() {
 @Composable
 fun PreferencesSection() {
     var showQRCode by remember { mutableStateOf(false) }
+    var showRatingDialog by remember { mutableStateOf(false) }
+    var rating by remember { mutableFloatStateOf(4.5f) }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         item {
             Column {
-                    PreferenceItem(
-                        ImageVector.vectorResource(id = R.drawable.ic_qr_code),
-                        "Scan code",
-                        onClick = {showQRCode = !showQRCode}
-                    )
-            if (showQRCode) {
-                Spacer(modifier = Modifier.height(16.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.qrcode),
-                    contentDescription = "QR Code",
-                    modifier = Modifier
-                        .size(420.dp)
-                        .align(Alignment.CenterHorizontally)
+                PreferenceItem(
+                    ImageVector.vectorResource(id = R.drawable.ic_qr_code),
+                    "Scan code",
+                    onClick = { showQRCode = !showQRCode },
+                    trailingIcon = if (!showQRCode) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp
                 )
+                AnimatedQRCode(showQRCode)
             }
         }
+        item { SectionHeader("Preferences") }
+        item { PreferenceItem(Icons.Default.AccountCircle, "Connected accounts") }
+        item { PreferenceItem(Icons.Default.Email, "Email settings") }
+        item {
+            PreferenceItem(
+                Icons.Default.Notifications,
+                "Device and push notification settings"
+            )
+        }
+        item { PreferenceItem(Icons.Default.Lock, "Security") }
+        item { SectionHeader("Feedback") }
+        item {
+            PreferenceItem(
+                Icons.Default.Star,
+                "Rate ExpenseMate",
+                onClick = { showRatingDialog = true })
+        }
     }
-    item { SectionHeader("Preferences") }
-    item { PreferenceItem(Icons.Default.AccountCircle, "Connected accounts") }
-    item { PreferenceItem(Icons.Default.Email, "Email settings") }
-    item { PreferenceItem(Icons.Default.Notifications, "Device and push notification settings") }
-    item { PreferenceItem(Icons.Default.Lock, "Security") }
-    item { SectionHeader("Feedback") }
-    item { PreferenceItem(Icons.Default.Star, "Rate ExpenseMate") }
-}
 }
 
 @Composable
-fun PreferenceItem(icon: ImageVector, title: String, onClick: (() -> Unit)? = null) {
+private fun ColumnScope.AnimatedQRCode(showQRCode: Boolean) {
+    AnimatedVisibility(
+        visible = showQRCode,
+        enter = fadeIn() + scaleIn(),
+        exit = shrinkVertically()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.qrcode),
+                contentDescription = "QR Code",
+                modifier = Modifier
+                    .size(420.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun PreferenceItem(
+    icon: ImageVector,
+    title: String,
+    onClick: (() -> Unit)? = null,
+    trailingIcon: ImageVector? = null
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable {
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) {
                 onClick?.invoke()
             },
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             imageVector = icon,
@@ -165,6 +209,13 @@ fun PreferenceItem(icon: ImageVector, title: String, onClick: (() -> Unit)? = nu
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(text = title, color = Color.White, fontSize = 18.sp)
+        Spacer(modifier = Modifier.weight(1f))
+        trailingIcon?.let {
+            Icon(
+                imageVector = it,
+                contentDescription = null
+            )
+        }
     }
 }
 
