@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import bista.shiddarth.expensemate.composables.BarGraphComposable
 import bista.shiddarth.expensemate.composables.PieChartComposable
 import bista.shiddarth.expensemate.ui.theme.kellyGreen
 import bista.shiddarth.expensemate.viewModel.FriendViewModel
@@ -97,42 +98,3 @@ fun ActivityScreen(friendViewModel: FriendViewModel) {
 }
 
 enum class ChartType { CATEGORY, MONTH }
-
-@Composable
-fun BarGraphComposable(friendViewModel: FriendViewModel) {
-    val barData = friendViewModel.getExpenseByMonth()
-
-    BarChart(
-        data = {
-            generateBarChartData(barData)
-        },
-        barChartConfig = BarChartConfig(
-            showAxisLines = true,
-            showGridLines = true,
-            drawNegativeValueChart = true,
-            showCurvedBar = true,
-            minimumBarCount = 1
-        ),
-
-        labelConfig = LabelConfig(
-            Color.White.asSolidChartColor(), showXLabel = true,showYLabel = true
-        ),
-    )
-}
-
-fun generateBarChartData(monthlyTotals: Map<String, Double>): List<BarData> {
-    val allMonths = listOf(
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    )
-    return allMonths.map { month ->
-        val categoryTotal = monthlyTotals[month] ?: 0.0
-
-        BarData(
-            yValue = categoryTotal.toFloat(),
-            xValue = month,
-            barColor = if (categoryTotal > 0 ) Color.Red.asSolidChartColor() else kellyGreen.asSolidChartColor(),
-            barBackgroundColor = Color.Transparent.asSolidChartColor()
-        )
-    }
-}
