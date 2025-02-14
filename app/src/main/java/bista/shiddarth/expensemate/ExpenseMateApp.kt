@@ -1,5 +1,7 @@
 package bista.shiddarth.expensemate
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -43,6 +45,7 @@ import bista.shiddarth.expensemate.viewModel.ExpenseViewModel
 import bista.shiddarth.expensemate.viewModel.FriendViewModel
 import bista.shiddarth.expensemate.viewModel.GroupViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ExpenseMateApp(
      groupViewModel: GroupViewModel = viewModel(),
