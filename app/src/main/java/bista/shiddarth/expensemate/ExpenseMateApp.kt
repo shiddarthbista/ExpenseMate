@@ -33,6 +33,7 @@ import bista.shiddarth.expensemate.composables.SearchCategories
 import bista.shiddarth.expensemate.composables.SearchScreen
 import bista.shiddarth.expensemate.model.Category
 import bista.shiddarth.expensemate.navigation.Screens
+import bista.shiddarth.expensemate.screens.AccountScreen
 import bista.shiddarth.expensemate.screens.ActivityScreen
 import bista.shiddarth.expensemate.screens.FriendsScreen
 import bista.shiddarth.expensemate.screens.GroupScreen
@@ -151,10 +152,4 @@ fun ExpenseMateApp(
         }
     }
 
-}
-
-@Preview
-@Composable
-fun AccountScreen() {
-    Text(text = "Account Screen")
 }
