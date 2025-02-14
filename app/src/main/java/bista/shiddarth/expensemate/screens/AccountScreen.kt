@@ -34,7 +34,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -123,7 +122,6 @@ fun AccountHeader() {
 fun PreferencesSection() {
     var showQRCode by remember { mutableStateOf(false) }
     var showRatingDialog by remember { mutableStateOf(false) }
-    var rating by remember { mutableFloatStateOf(4.5f) }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize()
