@@ -17,10 +17,14 @@
 ExpenseMate is an Android application that allows users to track expenses among your friends, roommates, families or various social circles. It is build to handle sharing cost with your friends and groups. The app is built using Kotlin and Jetpack Compose, following modern Android development practices.
 
 ## Screenshots
-<img src="https://github.com/user-attachments/assets/403ec4c4-3e35-4b10-a897-37cc3cbacd31" width="150" height="280">
-<img src="https://github.com/user-attachments/assets/ec179c85-742b-4066-b522-33bc32fc6ca0" width="150" height="280">
-<img src="https://github.com/user-attachments/assets/9b81ec11-c4c9-47ab-ad0c-8d695ec23757" width="150" height="280">
-<img src="https://github.com/user-attachments/assets/1bb89861-9858-482d-aa6e-9c0124c49872" width="150" height="280">
+<img src="https://github.com/user-attachments/assets/7e935883-820b-4d00-be6e-8be16f8e3bc9" width="220" height="500">
+<img src="https://github.com/user-attachments/assets/358a717a-7b83-41d9-af84-abc2f8f3c27f" width="220" height="500">
+<img src="https://github.com/user-attachments/assets/69b2ae3f-f4eb-4610-8077-518775de8509" width="220" height="500">
+<p></p>
+<img src="https://github.com/user-attachments/assets/09c92e0a-a3cd-4760-a353-083eba59ec33" width="220" height="500">
+<img src="https://github.com/user-attachments/assets/670528f0-ad95-4619-8995-11a242a42475" width="220" height="500">
+<img src="https://github.com/user-attachments/assets/22a491a9-85c0-4fba-a1e0-8fce162de4b8" width="220" height="500">
+
 
 ## Features
 *   **Create Groups:** Can create group to divide expenses equally.
