@@ -7,7 +7,7 @@
 3.  [Features](#features)
 4.  [Technologies Used](#technologies-used)
 5.  [Prerequisites](#prerequisites)
-6.  [Running the App](#how-to-run-the-app-locally)
+6.  [Running the App](#how-to-run-the-app-locally) 
 7.  [Status](#status)
 8.  [Further Development](#further-development)
 
